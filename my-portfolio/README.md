@@ -1,16 +1,90 @@
-# React + Vite
+# A B Najeeb Rahman - Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, editorial-style personal portfolio built with React 19, Vite, and GSAP. This project showcases a clean, paper-textured aesthetic with subtle ink-reveal animations and a focus on professional detail.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Editorial Design:** A "Digital Stationery" aesthetic using custom SVG noise textures and premium grid overlays.
+- **Fluid Motion:** 
+  - **GSAP:** Precise "Ink-Stroke" reveal animations for the hero section.
+  - **Framer Motion:** Smooth scroll-triggered entry animations for all sections.
+  - **Lenis:** Integrated smooth scrolling for a refined user experience.
+- **Custom Typography:** 
+  - Local `@font-face` integration for the unique `MyBrush` title font.
+  - Paired with Google Fonts (Shippori Mincho, Noto Sans JP).
+- **Responsive & Accessible:** Fully responsive layout with horizontal-first typography and motion-reduction support.
+- **Modern Stack:** Built on React 19 and Vite 8 for blazing-fast development and optimized production builds.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework:** React 19 (Vite)
+- **Styling:** Tailwind CSS 4, Vanilla CSS
+- **Animation:** GSAP, Framer Motion
+- **Icons:** Lucide React
+- **Smooth Scroll:** Lenis
 
-## Expanding the ESLint configuration
+## 📦 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+src/
+├── assets/          # Static assets (Images, Fonts, PDF)
+│   └── fonts/       # Local MyBrush font files
+├── components/      # UI Components
+│   ├── sections/    # Page sections (Hero, About, Projects, Contact)
+│   ├── Navbar.jsx   # Interactive navigation
+│   └── ...
+├── constants/       # Configuration & Data (Navigation links)
+├── index.css        # Global styles & Tailwind configuration
+└── App.jsx          # Root application component
+```
+
+## ⚙️ Setup & Installation
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- npm or yarn
+
+### 1. Clone the repository
+```bash
+git clone <your-repo-url>
+cd my-portfolio
+```
+
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Start development server
+```bash
+npm run dev
+```
+The application will be available at `http://localhost:5173`.
+
+## 🏗️ Deployment
+
+### Production Build
+To create an optimized production build:
+```bash
+npm run build
+```
+The output will be generated in the `dist/` directory.
+
+### Deploying to Vercel/Netlify
+1. Connect your repository to Vercel or Netlify.
+2. Set the **Build Command** to `npm run build`.
+3. Set the **Output Directory** to `dist`.
+4. Deploy!
+
+### Deploying to GitHub Pages
+1. Install the `gh-pages` package: `npm install -D gh-pages`.
+2. Update `vite.config.js` with your repository base path: `base: '/your-repo-name/'`.
+3. Add deployment scripts to `package.json`:
+   ```json
+   "predeploy": "npm run build",
+   "deploy": "gh-pages -d dist"
+   ```
+4. Run `npm run deploy`.
+
+---
+Built by **A B Najeeb Rahman**

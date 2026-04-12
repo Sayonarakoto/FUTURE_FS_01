@@ -10,7 +10,7 @@ function Footer() {
           {[
             {
               label: 'LinkedIn',
-              href: 'https://www.linkedin.com/in/a-b-najeeb-rahman-0201392b4',
+              href: ' https://www.linkedin.com/in/a-b-najeeb-rahman',
             },
             { label: 'GitHub', href: 'https://github.com/Sayonarakoto' },
             { label: 'Email', href: 'mailto:naji03rahman@gmail.com' },
