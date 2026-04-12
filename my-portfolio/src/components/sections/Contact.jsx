@@ -50,8 +50,8 @@ function Contact() {
           <motion.div variants={fieldContainerVariants} className="mt-8 space-y-3">
             {[
               { label: 'Email', val: 'naji03rahman@gmail.com' },
-              { label: 'LinkedIn', val: 'linkedin.com/in/a-b-najeeb-rahman-0201392b4' },
-              { label: 'GitHub', val: 'github.com/Sayonarakoto' },
+              { label: 'LinkedIn', val: ' https://www.linkedin.com/in/a-b-najeeb-rahman' },
+              { label: 'GitHub', val: 'https://github.com/Sayonarakoto' },
               { label: 'Phone', val: '+91 9061394344' },
             ].map((link) => (
               <motion.div
