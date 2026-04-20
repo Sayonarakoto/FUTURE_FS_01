@@ -20,9 +20,15 @@ const projects = [
   },
 ]
 
-function Projects() {
+function Projects({ alwaysVisible = false, variant = 'section', onNavigate }) {
+  const handleNavigate = (event, href) => {
+    if (!onNavigate || !href?.startsWith('#')) return
+    event.preventDefault()
+    onNavigate(href)
+  }
+
   return (
-    <SectionWrapper id="projects">
+    <SectionWrapper id="projects" className="bg-white bg-grid" alwaysVisible={alwaysVisible} variant={variant}>
       <motion.div variants={sectionChildVariants} className="space-y-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="space-y-2">
@@ -34,6 +40,7 @@ function Projects() {
           <a
             className="text-xs uppercase tracking-[0.24em] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink-main)]"
             href="#contact"
+            onClick={(event) => handleNavigate(event, '#contact')}
           >
             Available for builds
           </a>

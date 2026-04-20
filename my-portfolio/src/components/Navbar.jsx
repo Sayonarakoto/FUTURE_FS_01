@@ -38,7 +38,7 @@ const itemVariants = {
   }),
 }
 
-function Navbar() {
+function Navbar({ onNavigate }) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -47,6 +47,12 @@ function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const handleNavigate = (event, href) => {
+    if (!onNavigate || !href?.startsWith('#')) return
+    event.preventDefault()
+    onNavigate(href)
+  }
 
   return (
     <>
@@ -61,6 +67,7 @@ function Navbar() {
         <nav className="flex items-center justify-between gap-4">
           <motion.a
             href="#home"
+            onClick={(event) => handleNavigate(event, '#home')}
             variants={itemVariants}
             custom={0}
             className="select-none bg-gradient-to-b from-slate-800 to-slate-600 bg-clip-text text-lg font-black tracking-[0.18em] text-transparent sm:text-xl"
@@ -73,6 +80,7 @@ function Navbar() {
               <motion.a
                 key={item.href}
                 href={item.href}
+                onClick={(event) => handleNavigate(event, item.href)}
                 variants={itemVariants}
                 custom={index + 1}
                 className="group relative text-xs font-medium uppercase tracking-[0.3em] text-slate-700 transition-colors hover:text-slate-900"
@@ -101,6 +109,7 @@ function Navbar() {
             </motion.a>
             <motion.a
               href="#contact"
+              onClick={(event) => handleNavigate(event, '#contact')}
               variants={itemVariants}
               custom={6}
               whileHover={{ scale: 1.04 }}
@@ -140,7 +149,10 @@ function Navbar() {
                   <motion.a
                     key={item.href}
                     href={item.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={(event) => {
+                      handleNavigate(event, item.href)
+                      setIsOpen(false)
+                    }}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.06 * index }}
@@ -168,7 +180,10 @@ function Navbar() {
 
               <motion.a
                 href="#contact"
-                onClick={() => setIsOpen(false)}
+                onClick={(event) => {
+                  handleNavigate(event, '#contact')
+                  setIsOpen(false)
+                }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}

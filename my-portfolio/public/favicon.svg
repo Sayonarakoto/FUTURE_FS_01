@@ -1,0 +1,22 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    earGradient id="bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#A855F7" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+    earGradient id="glyph" x1="20" y1="18" x2="44" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FDF2F8" />
+    </linearGradient>
+  </defs>
+
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bg)" />
+  <path
+    d="M20 42V22H28C33.52 22 38 26.48 38 32C38 37.52 33.52 42 28 42H20Z"
+    fill="url(#glyph)"
+  />
+  <path
+    d="M42 22L52 42H45.5L43.8 38H36.2L34.5 42H28L38 22H42Z"
+    fill="url(#glyph)"
+  />
+</svg>

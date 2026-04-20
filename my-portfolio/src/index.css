@@ -1,13 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@400;700;800&family=Noto+Serif+JP:wght@900&family=Yuji+Syuku&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@900&family=Sawarabi+Mincho&family=Shippori+Mincho:wght@400;700;800&family=Yuji+Boku&family=Yuji+Syuku&display=swap');
 @import "tailwindcss";
-
-@font-face {
-  font-family: 'MyBrush';
-  src: url('./assets/fonts/MyBrush.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   color-scheme: light;
@@ -23,6 +15,8 @@
   --paper-card-strong: rgba(255, 255, 255, 0.7);
   --ink-shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.03);
   --ink-shadow-strong: 0 12px 32px rgba(0, 0, 0, 0.05);
+  --sumi-ink: #1A1A1B; /* Added for text-sumi-ink */
+  --font-shippori: 'Shippori Mincho', serif; /* Added for font-shippori */
 }
 
 html {
@@ -35,6 +29,15 @@ body {
   color: var(--ink-main);
   background: var(--paper-base);
   overflow-x: hidden;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 h1,
@@ -74,7 +77,7 @@ h4,
     linear-gradient(var(--paper-line-soft) 0.5px, transparent 0.5px),
     linear-gradient(90deg, var(--paper-line-soft) 0.5px, transparent 0.5px);
   background-size: 20px 20px;
-  opacity: 0.006;
+  opacity: 0.005;
 }
 
 .ink-card {
@@ -155,12 +158,13 @@ h4,
 }
 
 .hero-name {
-  font-size: clamp(3.5rem, 10vw, 8.5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 0.82;
+  line-height: 0.9;
   color: var(--ink-main);
   text-rendering: optimizeLegibility;
+  word-break: break-word;
 }
 
 .hero-vertical-sub {
@@ -176,9 +180,16 @@ h4,
 .ink-stroke {
   font-family: 'Yuji Syuku', serif;
   color: #1A1A1B;
-  filter: contrast(120%) brightness(90%);
+  filter: blur(0.3px) contrast(110%) brightness(90%);
   text-shadow: 0.5px 0.5px 1px rgba(26, 26, 27, 0.2);
   -webkit-font-smoothing: antialiased;
+  mix-blend-mode: multiply;
+}
+
+.ink-container {
+  mix-blend-mode: multiply;
+  overflow: visible !important;
+  background: transparent !important;
 }
 
 .font-mybrush {
@@ -269,4 +280,38 @@ h4,
   .ink-reveal-char {
     opacity: 1 !important;
   }
+}
+
+/* New CSS for grid background */
+.bg-grid {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px; /* A subtle grid size */
+  background-color: white; /* Ensure white background */
+}
+
+/* CSS Masking */
+.character-mask {
+  /* This creates a sharp top and a smooth fade at the bottom 20% */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 80%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 80%,
+    transparent 100%
+  );
+}
+
+.character-glow {
+  /* Adds that soft 'editorial' aura behind the cutout */
+  filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.1));
+}
+.canvas-layer {
+  /* Assuming this is a base style for canvas-like elements */
+  isolation: isolate; /* Matches horimiya-canvas behavior */
 }

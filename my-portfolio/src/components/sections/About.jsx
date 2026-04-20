@@ -32,9 +32,9 @@ const timelineItems = [
   },
 ]
 
-function About() {
+function About({ alwaysVisible = false, variant = 'section' }) {
   return (
-    <SectionWrapper id="about">
+    <SectionWrapper id="about" className="bg-white bg-grid" alwaysVisible={alwaysVisible} variant={variant}>
       <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <motion.div variants={sectionChildVariants} className="space-y-8">
           <div className="flex items-start justify-between gap-4">
@@ -69,7 +69,10 @@ I value independence and control over myself. I use careful thinking and discipl
           </div>
         </motion.div>
 
-        <motion.div variants={sectionChildVariants} className="ink-card-strong rounded-[1.5rem] p-8 sm:p-10">
+        <motion.div
+          variants={sectionChildVariants}
+          className="ink-card-strong rounded-[1.5rem] p-8 sm:p-10 lg:max-h-[72vh] lg:overflow-y-auto"
+        >
           <h3 className="border-b border-[var(--paper-line)] pb-4 font-heading text-3xl font-semibold text-[var(--ink-main)]">
             Timeline
           </h3>
