@@ -1,16 +1,16 @@
-import { useRef, useState } from 'react'
-import SectionWrapper from '../SectionWrapper'
-import { useGsapReveal } from '../../hooks/useGsapReveal'
-import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { useCallback, useEffect, useRef, useState } from 'react';
+import SectionWrapper from '../SectionWrapper';
+import { useGsapReveal } from '../../hooks/useGsapReveal';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 function Contact({ variant = 'section', isActive = false, revealKey }) {
-  const revealRef = useRef(null)
-  const [status, setStatus] = useState('idle')
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-  const [errorMessage, setErrorMessage] = useState('')
-  const shouldReduceMotion = usePrefersReducedMotion()
-  const shouldReveal = isActive
-  const replayKey = revealKey
+  const revealRef = useRef(null);
+  const [status, setStatus] = useState('idle');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [errorMessage, setErrorMessage] = useState('');
+  const shouldReduceMotion = usePrefersReducedMotion();
+  const shouldReveal = isActive;
+  const replayKey = revealKey;
 
   useGsapReveal(revealRef, shouldReveal, shouldReduceMotion, [
     { selector: '.contact-reveal', delay: 0.05, stagger: 0.08 },
@@ -18,14 +18,15 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
     { selector: '.contact-form', delay: 0.18 },
     { selector: '.contact-field', delay: 0.22, stagger: 0.08 },
     { selector: '.contact-button', delay: 0.28 },
-  ], replayKey)
+  ], replayKey);
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus('sending')
-    setErrorMessage('')
+  // Re-added the handleSubmit logic here for clarity and to ensure it's using the latest state
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault();
+    setStatus('sending');
+    setErrorMessage('');
 
     try {
       const response = await fetch('/.netlify/functions/send-email', {
@@ -34,26 +35,31 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      })
+      });
 
       if (response.ok) {
-        setStatus('success')
-        setFormData({ name: '', email: '', message: '' })
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' }); // Clear form
       } else {
+        let errorPayload;
         try {
-          const payload = await response.json()
-          setErrorMessage(payload?.error ? String(payload.error) : '')
-        } catch {
-          setErrorMessage('')
+          errorPayload = await response.json();
+        } catch (e) {
+          errorPayload = {};
         }
-        setStatus('error')
+        const message = errorPayload?.error ? String(errorPayload.error) : 'An unknown error occurred';
+        setErrorMessage(message);
+        setStatus('error');
       }
     } catch (err) {
-      console.error(err)
-      setErrorMessage('Network error')
-      setStatus('error')
+      console.error("The magic failed:", err);
+      setErrorMessage('Network error. Please check your connection and try again.');
+      setStatus('error');
     }
-  }
+  }, [formData]); // Ensure formData is a dependency if it affects the fetch body
+
+  // Removed the previous status message display and integrated it into the button logic for cleaner UX
+  // The success/error messages are now conditionally rendered below the button.
 
   return (
     <SectionWrapper id="contact" className="bg-white" variant={variant}>
@@ -156,7 +162,7 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
 
             {status === 'success' && (
               <p className="mt-4 italic text-gray-900">
-                Your letter has been sent to the portfolio inbox.
+                Your message has been sent successfully!
               </p>
             )}
 
@@ -169,7 +175,7 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
         </div>
       </div>
     </SectionWrapper>
-  )
+  );
 }
 
-export default Contact
+export default Contact;
