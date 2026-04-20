@@ -55,11 +55,43 @@ cd my-portfolio
 npm install
 ```
 
-### 3. Start development server
+### 3. Configure environment variables
+Create a `.env` file with:
+```bash
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TO_EMAIL=naji03rahman@gmail.com
+```
+
+### 4. Start development server
 ```bash
 npm run dev
 ```
 The application will be available at `http://localhost:5173`.
+
+## 🔧 Netlify Functions (Contact Email)
+
+This project uses a Netlify Function at `netlify/functions/send-email.js` for the contact form.
+
+### 1. Required environment variables
+Set these in your local `.env` file and in Netlify Site Settings -> Environment Variables:
+
+```bash
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TO_EMAIL=naji03rahman@gmail.com
+```
+
+### 2. Run functions locally
+Use Netlify CLI so `/.netlify/functions/send-email` works in local development:
+
+```bash
+npx netlify dev
+```
+
+### 3. Netlify build config
+This repo is already configured in `netlify.toml`:
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Functions directory: `netlify/functions`
 
 ## 🏗️ Deployment
 
@@ -74,7 +106,8 @@ The output will be generated in the `dist/` directory.
 1. Connect your repository to Vercel or Netlify.
 2. Set the **Build Command** to `npm run build`.
 3. Set the **Output Directory** to `dist`.
-4. Deploy!
+4. For Netlify, add `RESEND_API_KEY` and `CONTACT_TO_EMAIL` in environment variables.
+5. Deploy!
 
 ### Deploying to GitHub Pages
 1. Install the `gh-pages` package: `npm install -D gh-pages`.

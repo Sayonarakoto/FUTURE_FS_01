@@ -70,7 +70,7 @@ function Hero({ variant = 'section', onNavigate }) {
       id="home"
       ref={heroRef}
       className={`relative flex items-center overflow-hidden bg-white bg-grid px-6 ${
-        isPanel ? 'h-full min-h-0 pb-16 pt-28 sm:pb-20 lg:pt-24' : 'min-h-screen pt-20 sm:pt-0'
+        isPanel ? 'w-screen' : 'min-h-screen pt-20 sm:pt-0'
       }`}
     >
       <div className="absolute left-[5%] top-[15%] h-[1px] w-32 rotate-12 bg-[var(--paper-line)] opacity-40 mix-blend-multiply" />

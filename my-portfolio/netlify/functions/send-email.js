@@ -1,7 +1,5 @@
-/* eslint-env node */
 import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import process from 'node:process';
 
 export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -12,7 +10,17 @@ export const handler = async (event) => {
   }
 
   try {
-    const { email, message, name } = JSON.parse(event.body);
+    if (!process.env.RESEND_API_KEY) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Server is missing RESEND_API_KEY' }),
+      };
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { email, message, name } = JSON.parse(event.body ?? '{}');
+    const recipientEmail = process.env.CONTACT_TO_EMAIL || 'naji03rahman@gmail.com';
+    const displayName = typeof name === 'string' ? name.trim() : '';
 
     if (!email || !message) {
       return {
@@ -21,13 +29,20 @@ export const handler = async (event) => {
       };
     }
 
-    const data = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>', // Update this to a verified domain when going to prod
-      to: ['naji03rahman@gmail.com'], // Deliver to the user's email as seen in Contact.jsx
-      subject: `New Message from ${name || email} (Portfolio)`,
-      text: message,
-      reply_to: email,
+      to: [recipientEmail],
+      subject: `[PORTFOLIO] Message from ${displayName || email}`,
+      text: `From: ${displayName || ''} <${email}>\n\n${message}`,
+      replyTo: email,
     });
+
+    if (error) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: error?.message || 'Resend rejected the request' }),
+      };
+    }
 
     return {
       statusCode: 200,
@@ -37,7 +52,7 @@ export const handler = async (event) => {
     console.error('Email error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to send email' }),
+      body: JSON.stringify({ error: error?.message || 'Failed to send email' }),
     };
   }
 };

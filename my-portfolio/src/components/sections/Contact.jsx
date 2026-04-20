@@ -29,12 +29,14 @@ const fieldVariants = {
 function Contact({ alwaysVisible = false, variant = 'section' }) {
   const [status, setStatus] = useState('idle');
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
+    setErrorMessage('');
 
     try {
       const response = await fetch('/.netlify/functions/send-email', {
@@ -49,10 +51,17 @@ function Contact({ alwaysVisible = false, variant = 'section' }) {
         setStatus('success');
         setFormData({ name: '', email: '', message: '' });
       } else {
+        try {
+          const payload = await response.json();
+          setErrorMessage(payload?.error ? String(payload.error) : '');
+        } catch {
+          setErrorMessage('');
+        }
         setStatus('error');
       }
     } catch (err) {
       console.error(err);
+      setErrorMessage('Network error');
       setStatus('error');
     }
   };
@@ -170,13 +179,13 @@ function Contact({ alwaysVisible = false, variant = 'section' }) {
 
             {status === 'success' && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 italic text-[var(--ink-main)]">
-                Your letter has been sent.
+                Your letter has been sent to the portfolio inbox.
               </motion.p>
             )}
 
             {status === 'error' && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 italic text-red-600">
-                Failed to send message. Please try again.
+                Failed to send message{errorMessage ? `: ${errorMessage}` : ''}. Please try again.
               </motion.p>
             )}
           </motion.form>

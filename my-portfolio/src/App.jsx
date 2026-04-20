@@ -32,8 +32,10 @@ function DesktopHorizontalApp() {
     };
 
     const onWheel = (event) => {
-      if (event.ctrlKey) return;
+      // Prevent scrolling if modifier keys are pressed or if it's primarily vertical scroll
+      if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
       if (Math.abs(event.deltaY) < Math.abs(event.deltaX)) return;
+      
       event.preventDefault();
       railEl.scrollLeft += event.deltaY;
     };
@@ -61,27 +63,25 @@ function DesktopHorizontalApp() {
       <div
         ref={railRef}
         className="hide-scrollbar h-full overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
-        style={{ WebkitOverflowScrolling: 'touch' }}
+        style={{ WebkitOverflowScrolling: 'touch' }} // For smoother scrolling on iOS
       >
         <div style={{ width: `${sections.length * 100}vw` }} className="flex h-full">
           <section className="h-full w-screen shrink-0">
             <Hero variant="panel" onNavigate={onNavigate} />
           </section>
-
-          <section className="h-full w-screen shrink-0 overflow-y-auto">
+          <section className="h-full w-screen shrink-0">
             <Projects alwaysVisible variant="panel" onNavigate={onNavigate} />
           </section>
-
-          <section className="h-full w-screen shrink-0 overflow-y-auto">
+          <section className="h-full w-screen shrink-0">
             <About alwaysVisible variant="panel" />
           </section>
-
-          <section className="h-full w-screen shrink-0 overflow-y-auto">
+          <section className="h-full w-screen shrink-0">
             <Contact alwaysVisible variant="panel" />
           </section>
         </div>
       </div>
 
+      {/* Navigation dots/buttons */}
       <div className="pointer-events-none fixed inset-x-0 bottom-8 z-40 hidden justify-center lg:flex">
         <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-slate-200/70 bg-white/85 px-4 py-2 backdrop-blur-xl">
           <button
