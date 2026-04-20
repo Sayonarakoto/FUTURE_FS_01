@@ -1,18 +1,18 @@
-import { useEffect, useRef } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import gsap from 'gsap';
-import linkedinPhoto from '../../assets/linkedin.png';
-import { TegakiRenderer } from 'tegaki';
-import yujiSyukuFont from '../../assets/yuji-syuku/bundle.ts';
+import { useRef } from 'react'
+import linkedinPhoto from '../../assets/linkedin.png'
+import { TegakiRenderer } from 'tegaki'
+import yujiSyukuFont from '../../assets/yuji-syuku/bundle.ts'
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { useGsapReveal } from '../../hooks/useGsapReveal'
 
-const easeEditorial = [0.22, 1, 0.36, 1];
-const heroName = 'A B Najeeb Rahman';
+const heroName = 'A B Najeeb Rahman'
 
-function Hero({ variant = 'section', onNavigate }) {
-  const heroRef = useRef(null);
-  const portraitRef = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
-  const isPanel = variant === 'panel';
+function Hero({ variant = 'section', onNavigate, isActive = false, revealKey }) {
+  const heroRef = useRef(null)
+  const shouldReduceMotion = usePrefersReducedMotion()
+  const isPanel = variant === 'panel'
+  const shouldReveal = isActive
+  const replayKey = revealKey
 
   const handleNavigate = (event, href) => {
     if (!onNavigate || !href?.startsWith('#')) return
@@ -20,50 +20,19 @@ function Hero({ variant = 'section', onNavigate }) {
     onNavigate(href)
   }
 
-  useEffect(() => {
-    if (shouldReduceMotion) return undefined;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        portraitRef.current,
-        { opacity: 0, scale: 1.06, x: 30, filter: 'blur(18px)' },
-        {
-          opacity: 1,
-          scale: 1,
-          x: 0,
-          filter: 'blur(0px)',
-          duration: 1.3,
-          ease: 'power3.out',
-          delay: 1.6,
-        }
-      );
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, [shouldReduceMotion]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.25,
-        staggerChildren: 0.12,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 1,
-        ease: easeEditorial,
-      },
-    },
-  };
+  useGsapReveal(
+    heroRef,
+    shouldReveal,
+    shouldReduceMotion,
+    [
+      { selector: '.hero-copy', delay: 0.05, stagger: 0.08 },
+      { selector: '.hero-namewrap', delay: 0.2 },
+      { selector: '.hero-action', delay: 0.3, stagger: 0.08 },
+      { selector: '.hero-meta', delay: 0.38 },
+      { selector: '.hero-portrait', delay: 0.4, duration: 1.2 },
+    ],
+    replayKey
+  )
 
   return (
     <section
@@ -77,25 +46,24 @@ function Hero({ variant = 'section', onNavigate }) {
       <div className="absolute bottom-[20%] right-[10%] h-1.5 w-1.5 rounded-full bg-[var(--ink-muted)] opacity-20 mix-blend-multiply" />
       <div className="absolute bottom-[10%] left-[40%] h-[1px] w-64 -rotate-6 bg-[var(--paper-line-soft)] opacity-30 mix-blend-multiply" />
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="mx-auto w-full max-w-7xl"
-      >
+      <div className="mx-auto w-full max-w-7xl">
         <div className="grid grid-cols-12 items-center gap-12">
           <div className="col-span-12 lg:col-span-8">
             <div className="space-y-10">
-              <motion.div variants={itemVariants} className="space-y-4">
+              <div className="hero-copy space-y-4">
                 <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--slate-accent)]">
                   Talented Technocrat
                 </p>
                 <p className="max-w-2xl text-lg leading-relaxed text-[var(--ink-soft)] sm:text-xl">
-               Diploma graduate in Computer Engineering with a strong interest in software development. Currently a fresher, actively building coding skills with a focus on practical learning and problem-solving. Approaches programming as a continuous discovery process, with a mindset oriented toward experimentation, logic building, and iterative improvement. Familiar with core programming concepts and working toward applying them in real-world projects.
+                  Diploma graduate in Computer Engineering with a strong interest in software development.
+                  Currently a fresher, actively building coding skills with a focus on practical learning and
+                  problem-solving. Approaches programming as a continuous discovery process, with a mindset
+                  oriented toward experimentation, logic building, and iterative improvement. Familiar with
+                  core programming concepts and working toward applying them in real-world projects.
                 </p>
-              </motion.div>
+              </div>
 
-              <div className="ink-container relative z-10 flex select-none bg-transparent">
+              <div className="hero-namewrap ink-container relative z-10 flex select-none bg-transparent">
                 <div className="hero-name text-5xl md:text-7xl">
                   <TegakiRenderer font={yujiSyukuFont} duration={4000} delay={1000}>
                     {heroName}
@@ -103,7 +71,7 @@ function Hero({ variant = 'section', onNavigate }) {
                 </div>
               </div>
 
-              <motion.div variants={itemVariants} className="flex flex-wrap gap-5">
+              <div className="hero-action flex flex-wrap gap-5">
                 <a href="#projects" onClick={(event) => handleNavigate(event, '#projects')} className="editorial-cta">
                   View Work
                 </a>
@@ -114,21 +82,20 @@ function Hero({ variant = 'section', onNavigate }) {
                 >
                   Get in Touch
                 </a>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants} className="flex items-center gap-4">
+              <div className="hero-meta flex items-center gap-4">
                 <div className="h-[1px] w-12 bg-[var(--paper-line)]" />
                 <span className="text-[9px] uppercase tracking-[0.6em] text-[var(--ink-muted)]">
                   Palakkad, Kerala
                 </span>
-              </motion.div>
+              </div>
             </div>
           </div>
 
           <div className="col-span-12 lg:col-span-4">
             <div
-              ref={portraitRef}
-              className="paper-elevate character-mask character-glow relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-[2px] border border-[var(--paper-line)] bg-white p-2 lg:ml-auto"
+              className="hero-portrait paper-elevate character-mask character-glow relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-[2px] border border-[var(--paper-line)] bg-white p-2 lg:ml-auto"
             >
               <div className="relative h-full w-full overflow-hidden bg-slate-50">
                 <img
@@ -147,9 +114,9 @@ function Hero({ variant = 'section', onNavigate }) {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
-  );
+  )
 }
 
-export default Hero;
+export default Hero
