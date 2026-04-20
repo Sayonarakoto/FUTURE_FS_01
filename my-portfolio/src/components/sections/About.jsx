@@ -48,19 +48,19 @@ function About({ variant = 'section', isActive = false, revealKey }) {
   ], replayKey)
 
   return (
-    <SectionWrapper id="about" className="bg-white bg-grid" variant={variant}>
+    <SectionWrapper id="about" className="bg-white" variant={variant}>
       <div ref={revealRef} className="grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-8">
           <div className="flex items-start justify-between gap-4">
             <div className="about-reveal">
-              <p className="mb-2 text-[10px] uppercase tracking-[0.4em] text-[var(--slate-accent)]">Profile</p>
+              <p className="mb-2 text-[10px] uppercase tracking-[0.4em] text-gray-400">Profile</p>
               <h2 className="font-heading text-4xl font-semibold leading-[0.9] tracking-[0.03em] text-[var(--ink-main)] md:text-5xl">
                 About
               </h2>
             </div>
           </div>
 
-          <p className="max-w-xl text-lg leading-relaxed text-[var(--ink-soft)]">
+          <p className="max-w-xl text-lg leading-relaxed text-gray-600">
            I am eager to learn and passionate about gaining important knowledge. I want to improve myself and develop a calm, strategic mindset to handle difficult challenges with care and focus. 
 
 I value independence and control over myself. I use careful thinking and disciplined actions to solve problems, improve systems, and achieve meaningful results.
@@ -76,14 +76,14 @@ I value independence and control over myself. I use careful thinking and discipl
               { cat: 'Strengths', list: 'System Thinking, UX Detail, Communication' },
             ].map((item) => (
               <div key={item.cat} className="about-card ink-card rounded-2xl p-5">
-                <h4 className="text-[11px] uppercase tracking-[0.2em] text-[var(--ink-muted)]">{item.cat}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">{item.list}</p>
+                <h4 className="text-[11px] uppercase tracking-[0.2em] text-gray-500">{item.cat}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-gray-600">{item.list}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="about-timeline ink-card-strong rounded-[1.5rem] p-8 sm:p-10 lg:max-h-[72vh] lg:overflow-y-auto">
+        <div className="about-timeline ink-card-strong rounded-[1.5rem] p-8 sm:p-10">
           <h3 className="border-b border-[var(--paper-line)] pb-4 font-heading text-3xl font-semibold text-[var(--ink-main)]">
             Timeline
           </h3>
@@ -95,14 +95,14 @@ I value independence and control over myself. I use careful thinking and discipl
                 <div className="morph-dot" />
                 <div className="morph-content rounded-xl">
                   <div className="mb-2 flex items-start justify-between gap-3">
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-[var(--ink-muted)]">{item.period}</span>
-                    <span className="rounded-full border border-[var(--paper-line)] bg-white/65 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-[var(--ink-muted)]">
+                    <span className="text-[10px] uppercase tracking-[0.14em] text-gray-500">{item.period}</span>
+                    <span className="rounded-full border border-gray-200 bg-white/90 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-gray-500">
                       {item.category}
                     </span>
                   </div>
                   <h4 className="font-heading text-2xl font-semibold leading-tight text-[var(--ink-main)]">{item.title}</h4>
-                  <p className="mt-1 text-xs uppercase tracking-[0.15em] text-[var(--slate-accent)]">{item.org}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">{item.description}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.15em] text-gray-400">{item.org}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-600">{item.description}</p>
                 </div>
               </div>
             ))}

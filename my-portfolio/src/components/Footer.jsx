@@ -1,10 +1,10 @@
 function Footer() {
   return (
-    <footer className="border-t border-[var(--paper-line)] bg-[rgba(255,255,255,0.65)] py-10 text-center">
+    <footer className="border-t border-gray-200 bg-white/95 py-10 text-center">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6">
-        <p className="text-[10px] uppercase tracking-[0.45em] text-[var(--ink-muted)]">Thank You</p>
-        <p className="text-xs uppercase tracking-[0.2em] text-[var(--ink-soft)]">
-          © 2026 <span className="text-[var(--rose-accent)]">A B Najeeb Rahman</span> | Built with React + GSAP + Tailwind
+        <p className="text-[10px] uppercase tracking-[0.45em] text-gray-500">Thank You</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-gray-600">
+          © 2026 <span className="text-gray-900">A B Najeeb Rahman</span> | Built with React + GSAP + Tailwind
         </p>
         <div className="mt-1 flex flex-wrap justify-center gap-6">
           {[
@@ -18,7 +18,7 @@ function Footer() {
             <a
               key={social.label}
               href={social.href}
-              className="text-[10px] uppercase tracking-[0.2em] text-[var(--ink-muted)] transition-colors hover:text-[var(--rose-accent)]"
+              className="text-[10px] uppercase tracking-[0.2em] text-gray-500 transition-colors hover:text-gray-900"
             >
               {social.label}
             </a>

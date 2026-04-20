@@ -1,39 +1,27 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useMemo, useRef } from 'react'
 import gsap from 'gsap'
 
 export function useGsapReveal(scopeRef, shouldReveal, shouldReduceMotion, animations, replayKey) {
-  const lastReplayKeyRef = useRef(null)
-  const previousRevealRef = useRef(false)
-  const fallbackReplayRef = useRef(0)
+  const lastRunTokenRef = useRef('')
+  const animationSignature = useMemo(() => JSON.stringify(animations), [animations])
 
   useLayoutEffect(() => {
     const scope = scopeRef.current
-    if (!scope || shouldReduceMotion) {
-      previousRevealRef.current = false
+    if (!scope || shouldReduceMotion || !shouldReveal) {
+      lastRunTokenRef.current = ''
       return undefined
     }
 
-    if (!shouldReveal) {
-      previousRevealRef.current = false
-      return undefined
-    }
-
-    const nextReplayKey =
-      replayKey ?? (previousRevealRef.current ? fallbackReplayRef.current : fallbackReplayRef.current + 1)
-
-    if (!previousRevealRef.current && replayKey == null) {
-      fallbackReplayRef.current += 1
-    }
-
-    previousRevealRef.current = true
-
-    if (lastReplayKeyRef.current === nextReplayKey) return undefined
-    lastReplayKeyRef.current = nextReplayKey
+    const runToken = `${animationSignature}:${String(replayKey ?? 'auto')}`
+    if (lastRunTokenRef.current === runToken) return undefined
+    lastRunTokenRef.current = runToken
 
     const ctx = gsap.context(() => {
       animations.forEach((animation) => {
         const targets = scope.querySelectorAll(animation.selector)
         if (!targets.length) return
+
+        gsap.killTweensOf(targets)
 
         gsap.fromTo(
           targets,
@@ -53,6 +41,7 @@ export function useGsapReveal(scopeRef, shouldReveal, shouldReduceMotion, animat
             delay: animation.delay ?? 0,
             ease: animation.ease ?? 'power3.out',
             stagger: animation.stagger ?? 0.12,
+            overwrite: 'auto',
             clearProps: 'opacity,transform,filter',
             ...animation.to,
           }
@@ -61,5 +50,5 @@ export function useGsapReveal(scopeRef, shouldReveal, shouldReduceMotion, animat
     }, scope)
 
     return () => ctx.revert()
-  }, [animations, replayKey, scopeRef, shouldReduceMotion, shouldReveal])
+  }, [animationSignature, replayKey, scopeRef, shouldReduceMotion, shouldReveal])
 }

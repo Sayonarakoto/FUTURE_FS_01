@@ -56,12 +56,12 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
   }
 
   return (
-    <SectionWrapper id="contact" className="bg-white bg-grid" variant={variant}>
+    <SectionWrapper id="contact" className="bg-white" variant={variant}>
       <div ref={revealRef} className="grid items-start gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:pl-16">
         <div className="pt-8">
           <div className="flex items-start justify-between gap-4">
             <div className="contact-reveal">
-              <p className="mb-2 text-[10px] uppercase tracking-[0.4em] text-[var(--slate-accent)]">
+              <p className="mb-2 text-[10px] uppercase tracking-[0.4em] text-gray-400">
                 Contact
               </p>
               <h2 className="font-heading text-4xl font-semibold leading-[0.9] tracking-[0.03em] text-[var(--ink-main)] md:text-5xl">
@@ -70,7 +70,7 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
             </div>
           </div>
 
-          <p className="contact-reveal mt-6 max-w-xl text-lg leading-relaxed text-[var(--ink-soft)]">
+          <p className="contact-reveal mt-6 max-w-xl text-lg leading-relaxed text-gray-600">
             Based in Vadakkancherry, Palakkad, Kerala. Available for collaborative projects, internships, and
             full-stack builds.
           </p>
@@ -84,12 +84,12 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
             ].map((link) => (
               <div
                 key={link.label}
-                className="contact-card ink-card flex items-start justify-between gap-4 rounded-2xl border-l-[3px] border-l-[var(--slate-accent)] px-4 py-4"
+                className="contact-card ink-card flex items-start justify-between gap-4 rounded-2xl border-l-[3px] border-l-gray-200 px-4 py-4"
               >
-                <span className="text-[10px] uppercase tracking-[0.18em] text-[var(--ink-muted)]">
+                <span className="text-[10px] uppercase tracking-[0.18em] text-gray-500">
                   {link.label}
                 </span>
-                <span className="text-right text-sm font-medium text-[var(--ink-main)]">
+                <span className="text-right text-sm font-medium text-gray-900">
                   {link.val}
                 </span>
               </div>
@@ -102,24 +102,24 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
             onSubmit={handleSubmit}
             className="contact-form ink-card-strong rounded-[1.5rem] p-8"
           >
-            <h3 className="border-b border-[var(--ink-main)] pb-4 font-heading text-3xl font-semibold text-[var(--ink-main)]">
+            <h3 className="border-b border-gray-900 pb-4 font-heading text-3xl font-semibold text-gray-900">
               Message
             </h3>
 
             <div className="mt-6 space-y-5">
-              <label className="contact-field block text-[10px] uppercase tracking-[0.2em] text-[var(--ink-muted)]">
+              <label className="contact-field block text-[10px] uppercase tracking-[0.2em] text-gray-500">
                 Name
                 <input
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="mt-2 w-full rounded-xl border border-[var(--paper-line)] bg-white/80 px-4 py-3 text-sm text-[var(--ink-main)] outline-none transition-colors focus:border-[var(--ink-main)]"
+                  className="mt-2 w-full rounded-xl border border-gray-200 bg-white/95 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-gray-900"
                   placeholder="Your name"
                 />
               </label>
 
-              <label className="contact-field block text-[10px] uppercase tracking-[0.2em] text-[var(--ink-muted)]">
+              <label className="contact-field block text-[10px] uppercase tracking-[0.2em] text-gray-500">
                 Email
                 <input
                   type="email"
@@ -127,12 +127,12 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="mt-2 w-full rounded-xl border border-[var(--paper-line)] bg-white/80 px-4 py-3 text-sm text-[var(--ink-main)] outline-none transition-colors focus:border-[var(--ink-main)]"
+                  className="mt-2 w-full rounded-xl border border-gray-200 bg-white/95 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-gray-900"
                   placeholder="you@example.com"
                 />
               </label>
 
-              <label className="contact-field block text-[10px] uppercase tracking-[0.2em] text-[var(--ink-muted)]">
+              <label className="contact-field block text-[10px] uppercase tracking-[0.2em] text-gray-500">
                 Message
                 <textarea
                   rows="4"
@@ -140,7 +140,7 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="mt-2 w-full resize-none rounded-xl border border-[var(--paper-line)] bg-white/80 px-4 py-3 text-sm text-[var(--ink-main)] outline-none transition-colors focus:border-[var(--ink-main)]"
+                  className="mt-2 w-full resize-none rounded-xl border border-gray-200 bg-white/95 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-gray-900"
                   placeholder="Tell me about your project"
                 />
               </label>
@@ -155,7 +155,7 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
             </button>
 
             {status === 'success' && (
-              <p className="mt-4 italic text-[var(--ink-main)]">
+              <p className="mt-4 italic text-gray-900">
                 Your letter has been sent to the portfolio inbox.
               </p>
             )}
@@ -172,4 +172,4 @@ function Contact({ variant = 'section', isActive = false, revealKey }) {
   )
 }
 
-export default Contact;
+export default Contact

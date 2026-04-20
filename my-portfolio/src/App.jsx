@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ReactLenis } from 'lenis/react';
 import Navbar from './components/Navbar';
 import Hero from './components/sections/Hero';
@@ -11,26 +11,36 @@ function DesktopHorizontalApp() {
   const sections = ['home', 'projects', 'about', 'contact'];
   const railRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const wheelLockRef = useRef(false);
-  const wheelTimeoutRef = useRef(0);
-  const isScrollingRef = useRef(false);
+  const targetIndexRef = useRef(0);
+  const unlockTimeoutRef = useRef(0);
 
-  const scrollToIndex = (index, immediate = false) => {
+  const scrollToIndex = useCallback((index, immediate = false) => {
     const railEl = railRef.current;
     const clamped = Math.min(Math.max(index, 0), sections.length - 1);
     if (!railEl) return;
+
+    activeIndexRef.current = clamped;
+    targetIndexRef.current = clamped;
     setActiveIndex(clamped);
-    isScrollingRef.current = true;
+    wheelLockRef.current = true;
+    window.clearTimeout(unlockTimeoutRef.current);
+
     railEl.scrollTo({
       left: clamped * railEl.clientWidth,
       behavior: immediate ? 'auto' : 'smooth',
     });
 
-    window.clearTimeout(wheelTimeoutRef.current);
-    wheelTimeoutRef.current = window.setTimeout(() => {
-      isScrollingRef.current = false;
-    }, immediate ? 0 : 700);
-  };
+    if (immediate) {
+      wheelLockRef.current = false;
+      return;
+    }
+
+    unlockTimeoutRef.current = window.setTimeout(() => {
+      wheelLockRef.current = false;
+    }, 900);
+  }, [sections.length]);
 
   useEffect(() => {
     const railEl = railRef.current;
@@ -38,25 +48,30 @@ function DesktopHorizontalApp() {
 
     const updateActive = () => {
       const next = Math.round(railEl.scrollLeft / railEl.clientWidth);
-      setActiveIndex(next);
+      if (next !== activeIndexRef.current) {
+        activeIndexRef.current = next;
+        setActiveIndex(next);
+      }
+
+      if (wheelLockRef.current) {
+        const targetScrollLeft = targetIndexRef.current * railEl.clientWidth;
+        const distance = Math.abs(railEl.scrollLeft - targetScrollLeft);
+        if (distance < 2) {
+          wheelLockRef.current = false;
+          window.clearTimeout(unlockTimeoutRef.current);
+        }
+      }
     };
 
     const onWheel = (event) => {
       // Let the browser handle zoom, horizontal gesture, and modifier-based scrolling.
       if (event.ctrlKey || event.metaKey || event.altKey) return;
       if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      if (wheelLockRef.current || isScrollingRef.current) return;
+      if (wheelLockRef.current) return;
 
       event.preventDefault();
-      wheelLockRef.current = true;
-
       const direction = event.deltaY > 0 ? 1 : -1;
-      scrollToIndex(activeIndex + direction);
-
-      window.clearTimeout(wheelTimeoutRef.current);
-      wheelTimeoutRef.current = window.setTimeout(() => {
-        wheelLockRef.current = false;
-      }, 550);
+      scrollToIndex(activeIndexRef.current + direction);
     };
 
     railEl.addEventListener('scroll', updateActive, { passive: true });
@@ -66,9 +81,9 @@ function DesktopHorizontalApp() {
     return () => {
       railEl.removeEventListener('scroll', updateActive);
       railEl.removeEventListener('wheel', onWheel);
-      window.clearTimeout(wheelTimeoutRef.current);
+      window.clearTimeout(unlockTimeoutRef.current);
     };
-  }, [activeIndex]);
+  }, [scrollToIndex]);
 
   const onNavigate = (href) => {
     const id = href.replace('#', '');
@@ -77,7 +92,7 @@ function DesktopHorizontalApp() {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden bg-white">
+    <div className="horimiya-canvas relative h-screen overflow-hidden text-[var(--ink-main)]">
       <Navbar onNavigate={onNavigate} />
 
       <div

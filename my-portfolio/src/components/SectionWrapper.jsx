@@ -6,13 +6,13 @@ function SectionWrapper({ children, id, className = '', variant = 'section' }) {
   return (
     <section
       id={id}
-      className={`relative flex bg-gradient-to-br from-white to-slate-50 ${
+      className={`relative flex bg-white ${
         isPanel
           ? 'h-full min-h-0 items-start px-8 pb-14 pt-28 sm:px-10 lg:px-14 lg:pt-24'
           : 'min-h-screen items-center px-8 py-16 sm:px-10 lg:px-14'
-      } ${className}`}
+        } ${className}`}
     >
-      <div aria-hidden className="pointer-events-none absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-slate-300/50 to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-gray-200 to-transparent" />
       <div className="relative z-10 mx-auto w-full max-w-6xl">{children}</div>
     </section>
   )
