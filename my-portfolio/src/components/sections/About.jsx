@@ -73,7 +73,7 @@ I value independence and control over myself. I use careful thinking and discipl
               { cat: 'Programming', list: 'C, JavaScript, Python' },
               { cat: 'Web Stack', list: 'React, Vue, Express, Django, Node' },
               { cat: 'Tools', list: 'Git, GitHub Projects, Docker' },
-              { cat: 'Strengths', list: 'System Thinking, UX Detail, Communication' },
+              { cat: 'Strengths', list: 'Problem-Solving Under Pressure, UX Detail, Communication, Mental Flexibility' },
             ].map((item) => (
               <div key={item.cat} className="about-card ink-card rounded-2xl p-5">
                 <h4 className="text-[11px] uppercase tracking-[0.2em] text-gray-500">{item.cat}</h4>
