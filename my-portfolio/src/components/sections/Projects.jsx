@@ -9,7 +9,7 @@ const projects = [
     description:
       'MERN resource workflow that replaced manual logs with role approvals, live tracking, and accountable state updates.',
     stack: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
-    previewLink: 'https://sayonarakoto.github.io/Luminous-Hello/',
+    previewLink: 'https://gen-c-group1.vercel.app',
     sourceLink: 'https://github.com/Sayonarakoto/GEN-C_LOGIN',
   },
   {
